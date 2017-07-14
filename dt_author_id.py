@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 """ 
-    This is the code to accompany the Lesson 2 (SVM) mini-project.
+    This is the code to accompany the Lesson 3 (decision tree) mini-project.
 
-    Use a SVM to identify emails from the Enron corpus by their authors:    
+    Use a Decision Tree to identify emails from the Enron corpus by author:    
     Sara has label 0
     Chris has label 1
 """
@@ -13,9 +13,9 @@ from time import time
 sys.path.append("../tools/")
 from email_preprocess import preprocess
 
-from sklearn import svm
+from sklearn import tree
 from sklearn.metrics import accuracy_score
-       
+
 ### features_train and features_test are the features for the training
 ### and testing datasets, respectively
 ### labels_train and labels_test are the corresponding item labels
@@ -23,27 +23,17 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 #features_train = features_train[:len(features_train)/100] 
 #labels_train = labels_train[:len(labels_train)/100]
- 
-#clf = svm.SVC(kernel = "linear") #Train using linear kernel
-# tain using rbf kernel
-clf = svm.SVC(C=10000.0,kernel = "rbf")
-
-clf.fit(features_train,labels_train)
+#print len(features_train[0])
+clf = tree.DecisionTreeClassifier(min_samples_split=40)
+clf = clf.fit(features_train,labels_train)
 pred = clf.predict(features_test)
-#answer = pred[50]
-#print answer
-# TO find the accuracy
-#accuracy = accuracy_score(labels_test,pred)
-#print accuracy
-no_test = len(pred)
-sum = 0
-for count in range(no_test):
-    if(pred[count] == 1):
-        sum +=1
-print sum
+
+accuracy = accuracy_score(pred,labels_test)
+print accuracy
 
 #########################################################
 ### your code goes here ###
+
 
 #########################################################
 
